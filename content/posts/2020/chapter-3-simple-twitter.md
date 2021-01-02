@@ -513,7 +513,7 @@ Now we just need to create a new npm project with `npm init` command, and we hav
 
 ```bash
 $ npm install --save express
-$ npm install --save-dev @types/express @types/node concurrently ts-node tslint typescript
+$ npm install --save-dev @types/express @types/node @types/mongoose concurrently ts-node tslint typescript
 ```
 
 The last thing we need to do is to add some scripts to start and build the project.
@@ -1250,10 +1250,10 @@ We'll create a new `public` method named `seeding` so we can call it from outsid
  * @method seeding
  * @return void
  */
-public seeding() {
-  console.log(chalk.yellow("💦 Cleaning the DB 💦"));
-  this.cleanDB()
-    .then(this.createUsers);
+public async seeding() {
+ console.log(chalk.yellow("💦 Cleaning the DB 💦"));
+ await this.cleanDB()
+ const users = await this.createUsers();
 
   console.log(chalk.yellow(`Seeded DB with`));
   console.log(chalk.yellow("🎉 Finish seeding the DB 🎉"));

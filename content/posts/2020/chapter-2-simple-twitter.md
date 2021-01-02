@@ -202,29 +202,35 @@ Let's plan all the routes that will be in our backend service. Every route is ba
 
 ### 4.1 Users
 
+| Method | Path                       | Auth   | Description         |
+|--------|----------------------------|--------|---------------------|
+| POST   | /user                      | None   | Create a new user   |
+| PUT    | /user                      | Token  | Edit own info       |
+| DELETE | /user                      | Token  | Delete own user     |
+| GET    | /user/feed                 | Token  | Get own feed        |
+| GET    | /user/:username            | None   | Get a user info     |
+| POST   | /user/reset-password       | None   | Reset own password  |
+| PUT    | /user/change-password      | Token  | Edit own password   |
+| GET    | /user/settings             | Token  | Get own settings    |
+| PUT    | /user/change-settings      | Token  | Edit own settings   |
+
+### 4.2 Follow
+
 | Method | Path                       | Auth   | Description               |
 |--------|----------------------------|--------|---------------------------|
-| POST   | /user                      | None   | Create a new user         |
-| PUT    | /user                      | Token  | Edit own info             |
-| DELETE | /user                      | Token  | Delete own user           |
-| GET    | /user/feed                 | Token  | Get own feed              |
-| GET    | /user/:username            | None   | Get a user info           |
-| GET    | /user/followers/:username  | Token  | Get a user followers list |
-| GET    | /user/following/:username  | Token  | Get a user following list |
-| POST   | /user/follow/:username     | Token  | Start following a user    |
-| POST   | /user/unfollow/:username   | Token  | Stop following a user     |
-| POST   | /user/reset-password       | None   | Reset own password        |
-| PUT    | /user/password             | Token  | Edit own password         |
-| PUT    | /user/settings             | Token  | Edit own settings         |
+| GET    | /follow/followers/:username  | Token  | Get a user followers list |
+| GET    | /follow/following/:username  | Token  | Get a user following list |
+| POST   | /follow/follow/:username     | Token  | Start following a user    |
+| POST   | /follow/unfollow/:username   | Token  | Stop following a user     |
 
-### 4.2 Notifications
+### 4.3 Notifications
 
 | Method | Path                      | Auth   | Description                                   |
 |--------|---------------------------|--------|-----------------------------------------------|
 | GET    | /notifications/:username  | Token  | Get all the notifications for a specific user |
 | PUT    | /notifications/:username  | Token  | Mark notification as read / unread            |
 
-### 4.3 Tweets
+### 4.4 Tweets
 
 | Method | Path               | Auth   | Description                        |
 |--------|--------------------|--------|------------------------------------|
@@ -233,7 +239,7 @@ Let's plan all the routes that will be in our backend service. Every route is ba
 | PUT    | /tweets/:tweet_id  | Token  | Edit a tweet                       |
 | DELETE | /tweets/:tweet_id  | Token  | Delete a tweet                     |
 
-### 4.4 Media
+### 4.5 Media
 
 | Method | Path      | Auth   | Description          |
 |--------|-----------|--------|----------------------|
@@ -259,21 +265,14 @@ Let's plan all the routes that will be in our backend service. Every route is ba
 | website       | `string`  | false    | false  | User website                       |
 | birthday      | `date`    | false    | false  | User birthday dat                  |
 
-### 5.2. Followers Collection
+### 5.2. Follow Collection
 
-| Field Name  | Type        | required | unique | Description                |
-|-------------|-------------|----------|--------|----------------------------|
-| user        | `ref<user>` | true     | false  | The unique user `_id`      |
-| follower    | `ref<user>` | true     | false  | Unique follower user `_id` |
+| Field Name | Type        | required | unique | Description                |
+|------------|-------------|----------|--------|----------------------------|
+| user       | `ref<user>` | true     | false  | The unique user `_id`      |
+| follow     | `ref<user>` | true     | false  | Unique follower user `_id` |
 
-### 5.3. Following Collection
-
-| Field Name  | Type        | required | unique | Description                 |
-|-------------|-------------|----------|--------|-----------------------------|
-| user        | `ref<user>` | true     | false  | The unique user `_id`       |
-| following   | `ref<user>` | true     | false  | Unique following user `_id` |
-
-### 5.4. Tweets Collection
+### 5.3. Tweets Collection
 
 | Field Name   | Type            | required | unique | Description                                    |
 |--------------|-----------------|----------|--------|------------------------------------------------|
@@ -282,14 +281,14 @@ Let's plan all the routes that will be in our backend service. Every route is ba
 | image        | `array<string>` | false    | false  | Array of URLs for tweet images                 |
 | replay       | `ref<tweet>`    | false    | false  | The tweet `_id` this tweet replays to (if any) |
 
-### 5.5. Likes Collection
+### 5.4. Likes Collection
 
 | Field Name  | Type         | required | unique | Description                    |
 |-------------|--------------|----------|--------|--------------------------------|
 | user        | `ref<user>`  | true     | false  | The unique user `_id`          |
 | tweet       | `ref<tweet>` | true     | false  | The tweet `_id` the user liked |
 
-### 5.6. Notifications Collection
+### 5.5. Notifications Collection
 
 | Field Name | Type                       | required | unique | Description                  |
 |------------|----------------------------|----------|--------|------------------------------|
